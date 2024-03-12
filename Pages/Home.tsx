@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {
+  Alert,
   Button,
   StyleSheet,
   Text,
@@ -7,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 interface Errors {
   user?: string;
   pass?: string;
@@ -17,6 +20,7 @@ const Home = () => {
   const [pass, setPass] = useState<string>('');
   const [errors, setErrors] = useState<Errors>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const navigation = useNavigation();
 
   useEffect(() => {
     // No need to trigger validateForm here
@@ -46,56 +50,71 @@ const Home = () => {
   };
 
   const handleSubmit = () => {
+    let newErrors: Errors = {};
     if (isFormValid) {
       // Form is valid, perform the submission logic
-      console.log('Form submitted successfully!');
+      console.log('User: ' + user);
     } else {
       // Form is invalid, display error messages
       console.log('Form has errors. Please correct them.');
     }
+
+    if (user == 'Test' && pass == 'Test123') {
+      navigation.navigate('Profile' as never);
+    } else {
+      newErrors.user = 'User does not exist. Please create an account.';
+    }
+    setErrors(newErrors);
   };
 
   return (
-    <View style={styles.sectionContainer}>
-      <Text style={styles.sectionTitle}>SelfMaxx</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        onSubmitEditing={validateForm}
-        onChangeText={setUser}
-        value={user}
-      />
-      {errors.user && <Text style={styles.error}>{errors.user}</Text>}
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onSubmitEditing={validateForm}
-        onChangeText={setPass}
-        value={pass}
-        secureTextEntry
-      />
-      {errors.pass && <Text style={styles.error}>{errors.pass}</Text>}
-      <TouchableOpacity
-        style={[styles.buttonStyle, {opacity: isFormValid ? 1 : 0.5}]}
-        disabled={!isFormValid}
-        onPress={handleSubmit}>
-        <Text style={styles.buttonText}>Submit</Text>
-      </TouchableOpacity>
+    <View>
+      <LinearGradient
+        colors={['#8EC5FC', '#E0C3FC']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
+        locations={[0, 1]}
+        useAngle={true}
+        angle={62}
+        style={styles.background}>
+        <Text style={styles.sectionTitle}>SelfMaxx</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          onTextInput={validateForm}
+          onChangeText={setUser}
+          value={user}
+        />
+        {errors.user && <Text style={styles.error}>{errors.user}</Text>}
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          onTextInput={validateForm}
+          onChangeText={setPass}
+          value={pass}
+          secureTextEntry
+        />
+        {errors.pass && <Text style={styles.error}>{errors.pass}</Text>}
+        <TouchableOpacity
+          style={[styles.buttonStyle, {opacity: isFormValid ? 1 : 0.5}]}
+          disabled={!isFormValid}
+          onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+      </LinearGradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
+  background: {
     width: '100%',
     height: '100%',
-    backgroundColor: '#daeaf6',
   },
   sectionTitle: {
     fontSize: 50,
-    fontFamily: 'Futura',
     fontWeight: '600',
-    color: '#515999',
+    color: '#000000',
     textAlign: 'center',
   },
   sectionDescription: {
@@ -112,6 +131,7 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 10,
   },
   buttonStyle: {
     width: '70%',
@@ -120,7 +140,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     marginBottom: 10,
     alignItems: 'center',
-    backgroundColor: '#515999',
+    backgroundColor: '#006AF9',
+    marginTop: '2%',
   },
   buttonText: {
     color: '#fff',
@@ -129,8 +150,9 @@ const styles = StyleSheet.create({
   },
   error: {
     color: 'red',
-    fontSize: 20,
-    marginBottom: 12,
+    fontSize: 15,
+    marginBottom: '2%',
+    marginLeft: '2%',
   },
 });
 
