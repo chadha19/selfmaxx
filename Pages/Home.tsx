@@ -1,7 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {
-  Alert,
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -18,6 +16,7 @@ interface Errors {
 const Home = () => {
   const [user, setUser] = useState<string>('');
   const [pass, setPass] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [errors, setErrors] = useState<Errors>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const navigation = useNavigation();
@@ -49,6 +48,10 @@ const Home = () => {
     setIsFormValid(Object.keys(newErrors).length === 0);
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   const handleSubmit = () => {
     let newErrors: Errors = {};
     if (isFormValid) {
@@ -77,7 +80,7 @@ const Home = () => {
         useAngle={true}
         angle={62}
         style={styles.background}>
-        <Text style={styles.sectionTitle}>SelfMaxx</Text>
+        <Text style={styles.sectionTitle}>SelfMax</Text>
         <TextInput
           style={styles.input}
           placeholder="Name"
@@ -99,7 +102,15 @@ const Home = () => {
           style={[styles.buttonStyle, {opacity: isFormValid ? 1 : 0.5}]}
           disabled={!isFormValid}
           onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Login</Text>
+          <LinearGradient
+            colors={['#00c6fb', '#005bea']}
+            style={styles.gradientButton}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}>
+            <Text style={[styles.buttonText, {opacity: isFormValid ? 1 : 0.5}]}>
+              Login
+            </Text>
+          </LinearGradient>
         </TouchableOpacity>
       </LinearGradient>
     </View>
@@ -114,7 +125,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 50,
     fontWeight: '600',
-    color: '#000000',
+    color: '#ffffff',
     textAlign: 'center',
   },
   sectionDescription: {
@@ -132,12 +143,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
+    backgroundColor: 'white',
   },
   buttonStyle: {
     width: '70%',
     marginLeft: '15%',
     borderRadius: 8,
-    paddingVertical: 10,
     marginBottom: 10,
     alignItems: 'center',
     backgroundColor: '#006AF9',
@@ -147,6 +158,17 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
+  },
+  gradientButton: {
+    width: '100%',
+    borderRadius: 8,
+    paddingVertical: 10,
+    overflow: 'hidden',
+    alignItems: 'center',
+  },
+  icon: {
+    marginLeft: 10,
+    position: 'absolute',
   },
   error: {
     color: 'red',
