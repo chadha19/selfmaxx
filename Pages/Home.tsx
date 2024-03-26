@@ -97,7 +97,6 @@ const Home = () => {
           value={pass}
           secureTextEntry
         />
-
         {errors.pass && <Text style={styles.error}>{errors.pass}</Text>}
         <TouchableOpacity
           style={[styles.buttonStyle, {opacity: isFormValid ? 1 : 0.5}]}
