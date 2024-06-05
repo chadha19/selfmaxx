@@ -8,9 +8,13 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import auth from "@react-native-firebase/auth";
+import validator from 'validator';
+import Icon from 'react-native-vector-icons/Ionicons';
 interface Errors {
   user?: string;
   pass?: string;
+  account?: string;
 }
 
 const Home = () => {
@@ -20,26 +24,34 @@ const Home = () => {
   const [errors, setErrors] = useState<Errors>({});
   const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const navigation = useNavigation();
+  const [touched, setTouched] = useState(false);
 
   useEffect(() => {
     // No need to trigger validateForm here
     // It will be triggered by onSubmitEditing
   }, [errors, isFormValid]);
 
+
+
   const validateForm = () => {
     let newErrors: Errors = {};
 
-    // Validate name field
-    if (!user) {
-      newErrors.user = 'Name is required.';
+    
+
+    if (!validator.isEmail(user)) {
+      newErrors.user = 'Must use a valid email address';
+      
     }
 
     // Validate password field
-    if (!pass) {
-      newErrors.pass = 'Password is required.';
-    } else if (pass.length < 6) {
-      newErrors.pass = 'Password must be at least 6 characters.';
+    if (touched) {
+      if (!pass) {
+        newErrors.pass = 'Password is required.';
+      } else if (pass.length < 6) {
+        newErrors.pass = 'Password must be at least 6 characters.';
+      }
     }
+    
 
     // Merge new errors with existing ones
     setErrors(newErrors);
@@ -52,7 +64,8 @@ const Home = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = () => {
+
+  const signupVerify = () => {
     let newErrors: Errors = {};
     if (isFormValid) {
       // Form is valid, perform the submission logic
@@ -61,13 +74,20 @@ const Home = () => {
       // Form is invalid, display error messages
       console.log('Form has errors. Please correct them.');
     }
-
-    if (user == 'Test' && pass == 'Test123') {
-      navigation.navigate('Profile' as never);
-    } else {
-      newErrors.user = 'User does not exist. Please create an account.';
-    }
-    setErrors(newErrors);
+    
+    auth().createUserWithEmailAndPassword(user, pass).then(() => {
+        console.log("User created");
+        navigation.navigate('Profile' as never);
+      })
+      .catch(error => {
+        if (error.code == 'auth/email-already-in-use') {
+          newErrors.account = 'This email address is already in use. Try signing in or using another email.';
+        } else {
+          newErrors.account = 'An unexpected error occured. Please try again';
+        }
+        setErrors(newErrors);
+        
+      });
   };
 
   return (
@@ -80,38 +100,48 @@ const Home = () => {
         useAngle={true}
         angle={62}
         style={styles.background}>
-        <Text style={styles.sectionTitle}>SelfMax</Text>
+        <Text style={styles.sectionTitle}>SelfMaxx</Text>
         <TextInput
           style={styles.input}
-          placeholder="Name"
+          placeholder="Enter Email Address"
           onTextInput={validateForm}
           onChangeText={setUser}
           value={user}
         />
         {errors.user && <Text style={styles.error}>{errors.user}</Text>}
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onTextInput={validateForm}
-          onChangeText={setPass}
-          value={pass}
-          secureTextEntry
-        />
-        {errors.pass && <Text style={styles.error}>{errors.pass}</Text>}
+        <View style={styles.input}>
+            <TouchableOpacity onPress={toggleShowPassword} style={styles.icon}>
+              <Icon name={showPassword ? 'eye' : "eye-off"} size={33}/>
+            </TouchableOpacity>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Password"
+              onTextInput={ () => {
+                validateForm();
+                setTouched(true);
+                }
+              }
+              onChangeText={setPass} 
+              value={pass}
+              secureTextEntry={!showPassword}
+            />
+        </View>
+        {touched && errors.pass ? <Text style={styles.error}>{errors.pass}</Text> : null}
         <TouchableOpacity
           style={[styles.buttonStyle, {opacity: isFormValid ? 1 : 0.5}]}
           disabled={!isFormValid}
-          onPress={handleSubmit}>
+          onPress={signupVerify}>
           <LinearGradient
             colors={['#00c6fb', '#005bea']}
             style={styles.gradientButton}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}>
             <Text style={[styles.buttonText, {opacity: isFormValid ? 1 : 0.5}]}>
-              Login
+              Sign Up
             </Text>
           </LinearGradient>
         </TouchableOpacity>
+        {errors.account && <Text style={styles.error}>{errors.account}</Text> }
       </LinearGradient>
     </View>
   );
@@ -138,12 +168,21 @@ const styles = StyleSheet.create({
     color: '#7ec4cf',
   },
   input: {
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
     borderRadius: 10,
     backgroundColor: 'white',
+    position: 'relative',
+  },
+  passwordInput : {
+    flex: 1,
+    height: 40,
+    paddingRight: 60,
+    
   },
   buttonStyle: {
     width: '70%',
@@ -167,8 +206,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   icon: {
-    marginLeft: 10,
+    right: 10,
     position: 'absolute',
+    justifyContent: 'center',
+    zIndex: 1,
   },
   error: {
     color: 'red',
@@ -176,6 +217,7 @@ const styles = StyleSheet.create({
     marginBottom: '2%',
     marginLeft: '2%',
   },
+  
 });
 
 export default Home;

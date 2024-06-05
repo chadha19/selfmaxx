@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619850549616",
+    "project_id": "selfmaxx",
+    "storage_bucket": "selfmaxx.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619850549616:android:b5e5f26f60ac870308a7b5",
+        "android_client_info": {
+          "package_name": "com.selfmax"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBh5pRxI2aNOpFwldZlPMYqhQjitr4ylfY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
