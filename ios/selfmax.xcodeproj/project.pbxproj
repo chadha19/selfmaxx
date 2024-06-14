@@ -14,6 +14,11 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-selfmax-selfmaxTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-selfmax-selfmaxTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8B65CFAEB7DA43708016BAF7 /* CormorantSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C41E398B1324FAABBFE1BC3 /* CormorantSC-Bold.ttf */; };
+		3D1930149CBB4D748A1C90C1 /* CormorantSC-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A3CE6358F9A4512ABCE9993 /* CormorantSC-Light.ttf */; };
+		766ABAA34BD14715855949C5 /* CormorantSC-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37196032FF964F0CABF5D80F /* CormorantSC-Medium.ttf */; };
+		B49DB05E30544C8BA8A61FAE /* CormorantSC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5C2C9DFE204448D2A7A44B73 /* CormorantSC-Regular.ttf */; };
+		4EFDDC3535524400969D57ED /* CormorantSC-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32EECBCA2E1A4BF48F129A67 /* CormorantSC-SemiBold.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +49,11 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = selfmax/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-selfmax-selfmaxTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-selfmax-selfmaxTests.release.xcconfig"; path = "Target Support Files/Pods-selfmax-selfmaxTests/Pods-selfmax-selfmaxTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		3C41E398B1324FAABBFE1BC3 /* CormorantSC-Bold.ttf */ = {isa = PBXFileReference; name = "CormorantSC-Bold.ttf"; path = "../assets/fonts/CormorantSC-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		2A3CE6358F9A4512ABCE9993 /* CormorantSC-Light.ttf */ = {isa = PBXFileReference; name = "CormorantSC-Light.ttf"; path = "../assets/fonts/CormorantSC-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		37196032FF964F0CABF5D80F /* CormorantSC-Medium.ttf */ = {isa = PBXFileReference; name = "CormorantSC-Medium.ttf"; path = "../assets/fonts/CormorantSC-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5C2C9DFE204448D2A7A44B73 /* CormorantSC-Regular.ttf */ = {isa = PBXFileReference; name = "CormorantSC-Regular.ttf"; path = "../assets/fonts/CormorantSC-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		32EECBCA2E1A4BF48F129A67 /* CormorantSC-SemiBold.ttf */ = {isa = PBXFileReference; name = "CormorantSC-SemiBold.ttf"; path = "../assets/fonts/CormorantSC-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +132,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				57ED09B9274A4440BABC93D2 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +158,19 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		57ED09B9274A4440BABC93D2 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				3C41E398B1324FAABBFE1BC3 /* CormorantSC-Bold.ttf */,
+				2A3CE6358F9A4512ABCE9993 /* CormorantSC-Light.ttf */,
+				37196032FF964F0CABF5D80F /* CormorantSC-Medium.ttf */,
+				5C2C9DFE204448D2A7A44B73 /* CormorantSC-Regular.ttf */,
+				32EECBCA2E1A4BF48F129A67 /* CormorantSC-SemiBold.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -243,6 +267,11 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				8B65CFAEB7DA43708016BAF7 /* CormorantSC-Bold.ttf in Resources */,
+				3D1930149CBB4D748A1C90C1 /* CormorantSC-Light.ttf in Resources */,
+				766ABAA34BD14715855949C5 /* CormorantSC-Medium.ttf in Resources */,
+				B49DB05E30544C8BA8A61FAE /* CormorantSC-Regular.ttf in Resources */,
+				4EFDDC3535524400969D57ED /* CormorantSC-SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

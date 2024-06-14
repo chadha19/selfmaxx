@@ -25,42 +25,46 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-import Home from './Pages/Home';
+import SignUp from './Pages/SignUp';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Profile from './Pages/Profile';
+import Home from './Pages/Home';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Settings from './Pages/Settings';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-// type SectionProps = PropsWithChildren<{
-//   title: string;
-// }>;
-
-// function Section({children, title}: SectionProps): React.JSX.Element {
-//   const isDarkMode = useColorScheme() === 'dark';
-//   return (
-//     <View style={styles.sectionContainer}>
-//       <Text
-//         style={[
-//           styles.sectionTitle,
-//           {
-//             color: isDarkMode ? Colors.white : Colors.black,
-//           },
-//         ]}>
-//         {title}
-//       </Text>
-//       <Text
-//         style={[
-//           styles.sectionDescription,
-//           {
-//             color: isDarkMode ? Colors.light : Colors.dark,
-//           },
-//         ]}>
-//         {children}
-//       </Text>
-//     </View>
-//   );
-// }
+function BottomTabs() {
+    return (
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+              tabBarIcon: ({focused, color, size}) => {
+                const icons: {[key: string]: string} = {
+                  Home: focused ? 'home' : 'home-outline',
+                  Settings: focused ? 'settings' : 'settings-outline'
+                };
+                return <Icon name={icons[route.name]} size={size} color={color}/>;
+              },
+              headerTransparent: true,
+              headerTitle: 'SelfMaxx',
+              headerTitleAlign: 'left',
+              headerTitleStyle: {
+                fontFamily: 'CormorantSC-Bold',
+                fontSize: 30,
+                color: 'black', 
+              },
+              tabBarStyle: {
+                backgroundColor: 'black',
+              },
+        })}
+        >
+            <Tab.Screen name='Home' component={Home}/>
+            <Tab.Screen name='Settings' component={Settings}/>
+        </Tab.Navigator>
+    );
+};
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -72,53 +76,25 @@ function App(): React.JSX.Element {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="Home"
-          component={Home}
+          name="SignUp"
+          component={SignUp}
           options={{headerShown: false}}
         />
         <Stack.Screen
-          name="Profile"
-          component={Profile}
+          name="BottomTabs"
+          component={BottomTabs}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Home"
+          component={Home}
           options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
-
-  // return (
-  //   <SafeAreaView style={backgroundStyle}>
-  //     <StatusBar
-  //       barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-  //       backgroundColor={backgroundStyle.backgroundColor}
-  //     />
-  //     <ScrollView
-  //       contentInsetAdjustmentBehavior="automatic"
-  //       style={backgroundStyle}>
-  //       <Header />
-  //       <View
-  //         style={{
-  //           backgroundColor: isDarkMode ? Colors.black : Colors.white,
-  //         }}>
-  //         <Section title="Step One">
-  //           Edit <Text style={styles.bold}>App.tsx</Text> to change this
-  //           screen and then come back to see your edits
-  //         </Section>
-  //         <Section title="See Your Changes">
-  //           <ReloadInstructions />
-  //         </Section>
-  //         <Section title="Debug">
-  //           <DebugInstructions />
-  //         </Section>
-  //         <Section title="Learn More">
-  //           Read the docs to discover what to do next:
-  //         </Section>
-  //         <LearnMoreLinks />
-  //       </View>
-  //     </ScrollView>
-  //   </SafeAreaView>
-  // );
-}
-
+};
+ 
 // const styles = StyleSheet.create({
 //   sectionContainer: {
 //     marginTop: 32,
