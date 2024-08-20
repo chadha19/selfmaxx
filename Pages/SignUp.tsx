@@ -9,89 +9,46 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import auth from "@react-native-firebase/auth";
-import validator from 'validator';
+import axios from 'axios';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { systemWeights } from 'react-native-typography';
-interface Errors {
-  user?: string;
-  pass?: string;
-  account?: string;
-}
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+const process = require('process');
+
+
+GoogleSignin.configure({ 
+  webClientId: process.env.WEB_CLIENT_ID!,
+  scopes:['https://www.googleapis.com/auth/calendar'],
+  offlineAccess:true,
+});
 
 const SignUp = () => {
-  const [user, setUser] = useState<string>('');
-  const [pass, setPass] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [errors, setErrors] = useState<Errors>({});
-  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  
   const navigation = useNavigation();
-  const [touched, setTouched] = useState(false);
+
 
   useEffect(() => {
     // No need to trigger validateForm here
     // It will be triggered by onSubmitEditing
-  }, [errors, isFormValid]);
+
+  });
 
 
-
-  const validateForm = () => {
-    let newErrors: Errors = {};
-
-    
-
-    if (!validator.isEmail(user)) {
-      newErrors.user = 'Must use a valid email address';
-    }
-
-    if (!touched) {
-      newErrors.pass = ' ';
-    }
-    // Validate password field
-    if (touched) {
-      if (!pass) {
-        newErrors.pass = 'Password is required.';
-      } else if (pass.length < 6) {
-        newErrors.pass = 'Password must be at least 6 characters.';
-      }
-    }
-    
-
-    // Merge new errors with existing ones
-    setErrors(newErrors);
-
-    // Update form validity
-    setIsFormValid(Object.keys(newErrors).length === 0);
-  };
-
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-
-  const signupVerify = () => {
-    let newErrors: Errors = {};
-    if (isFormValid) {
-      // Form is valid, perform the submission logic
-      console.log('User: ' + user);
-    } else {
-      // Form is invalid, display error messages
-      console.log('Form has errors. Please correct them.');
-    }
-    
-    auth().createUserWithEmailAndPassword(user, pass).then(() => {
-        console.log("User created");
+  const googleSignIn = async () => {
+      try {
+        await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
+        const {idToken, serverAuthCode} = await GoogleSignin.signIn();
+        
+        await axios.post("http://10.0.2.2:3000/authCode", {authCode: serverAuthCode});
+       
+        const googleCredential = auth.GoogleAuthProvider.credential(idToken);
         navigation.navigate('Home' as never);
         navigation.navigate('BottomTabs' as never);
-      })
-      .catch(error => {
-        if (error.code == 'auth/email-already-in-use') {
-          newErrors.account = 'This email address is already in use. Try signing in.';
-        } else {
-          newErrors.account = 'An unexpected error occured. Please try again';
-        }
-        setErrors(newErrors);
         
-      });
+        return auth().signInWithCredential(googleCredential);
+
+      } catch(error) {
+        console.error(error);
+      }
   };
 
   return (
@@ -106,47 +63,19 @@ const SignUp = () => {
         style={styles.background}>
         <Text style={styles.sectionTitle}>SelfMaxx</Text>
         <View style={styles.userInterface}>
-          <TextInput
-            style={styles.input}
-            placeholder="Enter Email Address"
-            onTextInput={validateForm}
-            onChangeText={setUser}
-            value={user}
-          />
-          {errors.user && <Text style={styles.error}>{errors.user}</Text>}
-          <View style={styles.input}>
-              <TouchableOpacity onPress={toggleShowPassword} style={styles.icon}>
-                <Icon name={showPassword ? 'eye' : "eye-off"} size={33}/>
-              </TouchableOpacity>
-              <TextInput
-                style={styles.passwordInput}
-                placeholder="Password"
-                onTextInput={ () => {
-                  validateForm();
-                  setTouched(true);
-                  }
-                }
-                onChangeText={setPass} 
-                value={pass}
-                secureTextEntry={!showPassword}
-              />
-          </View>
-          {touched && errors.pass ? <Text style={styles.error}>{errors.pass}</Text> : null}
           <TouchableOpacity
-            style={[styles.buttonStyle, {opacity: isFormValid ? 1 : 0.5}]}
-            disabled={!isFormValid}
-            onPress={signupVerify}>
+            style={styles.buttonStyle}
+            onPress={googleSignIn}>
             <LinearGradient
               colors={['#ffffff','#f0f0f0']}
               style={styles.gradientButton}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}>
-              <Text style={[styles.buttonText, {opacity: isFormValid ? 1 : 0.5}]}>
-                Sign Up
+              <Text style={styles.buttonText}>
+                Sign In With Google
               </Text>
             </LinearGradient>
           </TouchableOpacity>
-          {errors.account && <Text style={styles.error}>{errors.account}</Text> }
       
         </View>
       </LinearGradient>
@@ -176,22 +105,6 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: '700',
     color: '#7ec4cf',
-  },
-  input: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    position: 'relative',
-  },
-  passwordInput : {
-    flex: 1,
-    height: 40,
-    paddingRight: 60,
   },
   buttonStyle: {
     width: '70%',

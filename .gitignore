@@ -64,3 +64,12 @@ yarn-error.log
 
 # testing
 /coverage
+
+#Environment variables
+.env
+
+#Credentials JSON file
+genkit/credentials.json
+
+#Tokens.json file
+genkit/tokens.json

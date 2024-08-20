@@ -1,0 +1,36 @@
+{
+  "name": "genkit",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/index.js",
+    "build": "tsc",
+    "build:watch": "tsc --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@genkit-ai/ai": "^0.5.6",
+    "@genkit-ai/core": "^0.5.6",
+    "@genkit-ai/dotprompt": "^0.5.6",
+    "@genkit-ai/flow": "^0.5.6",
+    "@genkit-ai/googleai": "^0.5.3",
+    "@google-cloud/local-auth": "^2.1.1",
+    "@google/generative-ai": "^0.14.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "firebase": "^10.12.3",
+    "firebase-admin": "^12.3.1",
+    "google-auth-library": "^9.13.0",
+    "googleapis": "^105.0.0",
+    "tsc": "^2.0.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  }
+}

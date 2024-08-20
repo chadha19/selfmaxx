@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "619850549616",
+    "firebase_url": "https://selfmaxx-default-rtdb.firebaseio.com",
     "project_id": "selfmaxx",
     "storage_bucket": "selfmaxx.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.selfmax"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "619850549616-i0cc6v4untr10d1pojhbq4i21ls6dvi3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.selfmax",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "619850549616-fjddgpsdl6pfssg3l1dvbn1auhk9bcnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBh5pRxI2aNOpFwldZlPMYqhQjitr4ylfY"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619850549616-fjddgpsdl6pfssg3l1dvbn1auhk9bcnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

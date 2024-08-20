@@ -15,6 +15,7 @@ import {
   Text,
   useColorScheme,
   View,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 import {
@@ -53,16 +54,18 @@ function BottomTabs() {
               headerTitleStyle: {
                 fontFamily: 'CormorantSC-Bold',
                 fontSize: 30,
-                color: 'black', 
+                color: 'white', 
               },
               tabBarStyle: {
-                backgroundColor: 'black',
+                backgroundColor: '#2f2626',
               },
+              tabBarHideOnKeyboard:true,
         })}
         >
-            <Tab.Screen name='Home' component={Home}/>
-            <Tab.Screen name='Settings' component={Settings}/>
+            <Tab.Screen name="Home" component={Home}/>
+            <Tab.Screen name= "Settings" component={Settings}/>
         </Tab.Navigator>
+       
     );
 };
 

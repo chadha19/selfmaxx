@@ -20,6 +20,10 @@
     {
       "path": "assets/fonts/CormorantSC-SemiBold.ttf",
       "sha1": "6358c77237f9f0eecf5be07b6a3771e20a7f670e"
+    },
+    {
+      "path": "assets/fonts/Lato-Bold.ttf",
+      "sha1": "542498221d97bee5bdbccf86ee8890bf8e8005c9"
     }
   ]
 }
