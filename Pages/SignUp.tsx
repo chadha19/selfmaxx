@@ -24,7 +24,7 @@ GoogleSignin.configure({
 const SignUp = () => {
   
   const navigation = useNavigation();
-
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     // No need to trigger validateForm here
@@ -35,16 +35,22 @@ const SignUp = () => {
 
   const googleSignIn = async () => {
       try {
+        setLoading(true);
         await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
         const {idToken, serverAuthCode} = await GoogleSignin.signIn();
-        
-        await axios.post("http://10.0.2.2:3000/authCode", {authCode: serverAuthCode});
+      
        
+        await axios.post("http://10.0.2.2:3000/authCode", {authCode: serverAuthCode});
+
         const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+        
+        //await auth().currentUser?.getIdToken(true);
+        
         navigation.navigate('Home' as never);
         navigation.navigate('BottomTabs' as never);
-        
-        return auth().signInWithCredential(googleCredential);
+        setLoading(false);
+
+        return await auth().signInWithCredential(googleCredential);
 
       } catch(error) {
         console.error(error);
@@ -65,7 +71,8 @@ const SignUp = () => {
         <View style={styles.userInterface}>
           <TouchableOpacity
             style={styles.buttonStyle}
-            onPress={googleSignIn}>
+            onPress={googleSignIn}
+            disabled={loading}>
             <LinearGradient
               colors={['#ffffff','#f0f0f0']}
               style={styles.gradientButton}

@@ -4,16 +4,17 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Bubble, BubbleProps, GiftedChat, GiftedChatProps, IMessage} from 'react-native-gifted-chat'
 import auth from "@react-native-firebase/auth";
-import { firebase } from '@react-native-firebase/storage';
+import LottieView from 'lottie-react-native';
 import axios from 'axios';
 import { Image } from 'react-native';
-
+import checkmarkAnimation from '../assets/fonts/checkmark.json';
 
  
 export const Home = () => {
     const [messages, setMessages] = useState<IMessage[]>([]);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [scheduleMessage, setScheduleMessage] = useState<string>("");
+    const [calendarConfirmation, setCalendarConfirmation] = useState<boolean>(false);
   
     const sendMessage = async (message:string) => {
       
@@ -100,13 +101,42 @@ export const Home = () => {
 
     const addGoogleCalendar = async () => {
       
-      try {
+      try { 
         await axios.post("http://10.0.2.2:3000/googlecalendar", {message:scheduleMessage});
-        console.log("This works");
+        console.log("Event successfully added");
+        //setCalendarConfirmation(true);
+        //setTimeout(()=>setCalendarConfirmation(false), 5000);
       } catch (error) {
         console.error("Error in adding to google calendar: " + error);
       }
     }
+
+    /*const modalDisplay = () => {
+      if (calendarConfirmation) {
+        return (
+          <View>
+              <Text style={styles.modalTitleText}>Successfully Added to Calendar!</Text>
+              <LottieView
+                source={checkmarkAnimation}
+                autoPlay
+                loop={false}
+              />
+          </View>
+        );
+      } else {
+        return (
+          <View>
+              <Text style={styles.modalTitleText}>Add it to Your Calendar!</Text>
+              <Text style={styles.modalMessage}>{scheduleMessage}</Text>
+              <TouchableOpacity style={styles.googleCalendarButton} onPress={addGoogleCalendar}>
+                <Image source={{uri: 'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-03-512.png'}} style={styles.googleCalendarIcon}/>
+                  <Text style={styles.googleCalendarText}>Google Calendar</Text>
+              </TouchableOpacity>
+          </View>
+        );
+      }
+      
+    }*/
 
     return (
       <View>
@@ -118,7 +148,7 @@ export const Home = () => {
           useAngle={true}
           angle={62}
           style={styles.background}>
-           
+          <View style={styles.giftedChat}>
             <GiftedChat
               messages={messages}
               showAvatarForEveryMessage={true}
@@ -130,7 +160,7 @@ export const Home = () => {
               }} 
               keyboardShouldPersistTaps={'handled'}
             />
-            
+          </View>
             
             <Modal 
               visible={modalVisible}
@@ -146,7 +176,7 @@ export const Home = () => {
                         <Text style={styles.modalMessage}>{scheduleMessage}</Text>
                         <TouchableOpacity style={styles.googleCalendarButton} onPress={addGoogleCalendar}>
                           <Image source={{uri: 'https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-03-512.png'}} style={styles.googleCalendarIcon}/>
-                            <Text style={styles.googleCalendarText}>Google Calendar</Text>
+                          <Text style={styles.googleCalendarText}>Google Calendar</Text>
                         </TouchableOpacity>
                       </View>
                   </TouchableWithoutFeedback>
@@ -154,8 +184,6 @@ export const Home = () => {
               </TouchableWithoutFeedback>
             </Modal>
           
-          
-
         </LinearGradient>
       </View>
     );
@@ -173,6 +201,11 @@ const styles = StyleSheet.create({
   background: {
     width: '100%',
     height: '100%',
+  },
+  giftedChat: {
+    paddingTop: 60,
+    flex: 1,
+    //paddingBottom: 5,
   },
   gradientButton: {
     width: '100%',

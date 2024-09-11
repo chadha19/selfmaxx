@@ -9,7 +9,10 @@ import cors from 'cors';
 import { HarmBlockThreshold, HarmCategory } from "@google/generative-ai";
 import { GoogleGenerativeAI, GoogleGenerativeAIFetchError, GoogleGenerativeAIResponseError } from '@google/generative-ai';
 
+
 require('dotenv').config();
+
+
 
 const safetySetting = [
   {
@@ -21,6 +24,7 @@ const safetySetting = [
     threshold: HarmBlockThreshold.BLOCK_NONE,
   },
 ];
+
 
 
 const systemPrompt = `You will generate a schedule for a person based on the information they provide. The schedule you create should be provided in the specific format: "Date, Starting Time, 
@@ -36,6 +40,7 @@ Ensure that the first line says schedule and every other line is describing an e
 No additional comments should be included in the final schedule. Make sure to keep your responses short and sweet.
 If you are given information unrelated to scheduling, kindly tell the user that you are only a scheduling and planning chatbot.
 You can only schedule a maximum of 5 events for the user at once. If the events list exceeds 5, tell the user they must replace or remove one.
+Do not ever schedule events for the past, if the user asks to schedule for midnight or after, always use the next day's date.
 Below are two examples of what the user should see based on their request.
 
 
@@ -100,8 +105,6 @@ app.listen(3000, () => {
 // Google Calendar API
 
 
-
-
 const CLIENT_ID = process.env.WEB_CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, 'https://selfmaxx.firebaseapp.com/__/auth/handler');
@@ -124,8 +127,10 @@ async function retrieveExistingTokens() {
 app.post('/authCode', async (req,res) => {
   let { authCode } = req.body;
  
-  const {tokens} = await oauth2Client.getToken(authCode);
-
+  const {tokens} = await oauth2Client.getToken({
+    code: authCode,
+    });
+  console.log(tokens.refresh_token);
   saveTokensToDatabase(tokens);
   
   res.end("Access token recieved");
@@ -145,8 +150,7 @@ async function getTokenFromDatabase() {
     const isTokenExpired = !tokens.expiry_date || tokens.expiry_date < Date.now();
     
     if (isTokenExpired) {
-      const {credentials} = await oauth2Client.refreshAccessToken();
-      oauth2Client.setCredentials(credentials);
+      console.log("Token expired");
     } 
   } catch (err) {
     console.error("Error in getting new token: "+err);
