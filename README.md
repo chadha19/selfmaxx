@@ -31,15 +31,14 @@ To download and use SelfMaxx, do the following:
     export WEB_CLIENT_ID='your-client-id'
     export CLIENT_SECRET='your-secret-key'
   ```
-4. Run the backend Express server
+4. Run the backend Express server. At this point, it should state that the server has been successfully started on port 3000.
 ```bash
 node ./lib/index.js
 ```
-At this point, it should state that the server has been successfully started on port 3000.
 5. Navigate back to frontend
-  ```bash
-  cd ../
-  ```
+```bash
+cd ../
+```
 6. Set up the WEB_CLIENT_ID environment variable to the same value as backend.
   ```bash
     export WEB_CLIENT_ID='your-client-id'
@@ -48,7 +47,7 @@ At this point, it should state that the server has been successfully started on 
   ```bash
     npm run android
   ```
-  The Android emulator runs on http://10.0.2.2:3000.
+The Android emulator runs on http://10.0.2.2:3000.
 
 ## Contributions
 Contributions are always welcome! Feel free to submit an issue or open a pull request to help improve the project. Thanks!
