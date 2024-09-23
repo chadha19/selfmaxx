@@ -32,10 +32,10 @@ To download and use SelfMaxx, do the following:
     export CLIENT_SECRET='your-secret-key'
   ```
 4. Run the backend Express server
-   ```bash
-   node ./lib/index.js
-   ```
-   At this point, it should state that the server has been successfully started on port 3000.
+```bash
+node ./lib/index.js
+```
+At this point, it should state that the server has been successfully started on port 3000.
 5. Navigate back to frontend
   ```bash
   cd ../
