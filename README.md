@@ -16,7 +16,8 @@ For example, the user tells the chatbot they must walk their dog for 30 minutes 
 
 ## Installation
 To download and use SelfMaxx, do the following:
-1. ```git clone https://github.com/chadha19/selfmaxx.git cd selfmaxx```
-2. 
+1. ```git clone https://github.com/chadha19/selfmaxx.git
+  cd selfmaxx```
+3. 
 
 
